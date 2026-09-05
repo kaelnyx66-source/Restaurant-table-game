@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <rect width="512" height="512" rx="110" fill="#FF5A5F"/>
+  <rect x="24" y="24" width="464" height="464" rx="90" fill="none" stroke="#1A1A1A" stroke-width="24"/>
+  <!-- Decorative badge inside -->
+  <circle cx="256" cy="256" r="170" fill="#FFF9F2" stroke="#1A1A1A" stroke-width="20"/>
+  <!-- Cross Cutlery & Game Dice -->
+  <g transform="translate(156, 156) scale(0.78)" stroke="#1A1A1A" stroke-width="16" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Fork -->
+    <path d="M70 50 L70 120 C70 150 110 150 110 120 L110 50" fill="none"/>
+    <line x1="90" y1="50" x2="90" y2="120"/>
+    <line x1="90" y1="135" x2="90" y2="230"/>
+    <!-- Knife -->
+    <path d="M170 50 C190 70 190 120 170 140 L170 230" fill="#FFD166"/>
+  </g>
+  <!-- Dice Accent -->
+  <g transform="translate(230, 230)">
+    <rect x="0" y="0" width="80" height="80" rx="18" fill="#06D6A0" stroke="#1A1A1A" stroke-width="12"/>
+    <circle cx="25" cy="25" r="7" fill="#1A1A1A"/>
+    <circle cx="40" cy="40" r="7" fill="#1A1A1A"/>
+    <circle cx="55" cy="55" r="7" fill="#1A1A1A"/>
+  </g>
+</svg>
