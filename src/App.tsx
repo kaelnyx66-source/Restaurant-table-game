@@ -55,7 +55,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#FFF9F2] text-[#2D2D2D] flex flex-col font-sans selection:bg-[#FFD166] selection:text-[#1A1A1A]">
+    <div className="min-h-screen min-h-[100dvh] w-full max-w-full overflow-x-hidden bg-[#FFF9F2] text-[#2D2D2D] flex flex-col font-sans selection:bg-[#FFD166] selection:text-[#1A1A1A] safe-px">
       {/* Top Lounge Navigation Header */}
       <Header
         activeTab={activeTab}
@@ -69,7 +69,7 @@ export default function App() {
       />
 
       {/* Main Game Stage */}
-      <main className="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 py-6 sm:py-8">
+      <main className="flex-1 max-w-6xl w-full mx-auto px-3.5 sm:px-6 py-4 sm:py-8 overflow-x-hidden">
         {/* PARTY GAMES */}
         {activeTab === 'heads-up' && (
           <HeadsUpGame
@@ -129,8 +129,8 @@ export default function App() {
       />
 
       {/* Restaurant Table Footer */}
-      <footer className="bg-white border-t-4 border-[#1A1A1A] text-[#1A1A1A] py-6 mt-12 shadow-[0px_-4px_0px_0px_rgba(26,26,26,0.05)]">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col md:flex-row items-center justify-between gap-4 text-xs">
+      <footer className="bg-white border-t-4 border-[#1A1A1A] text-[#1A1A1A] py-6 mt-8 sm:mt-12 w-full overflow-x-hidden shadow-[0px_-4px_0px_0px_rgba(26,26,26,0.05)] pb-[calc(1.5rem+env(safe-area-inset-bottom,0px))]">
+        <div className="max-w-6xl mx-auto px-3.5 sm:px-6 flex flex-col md:flex-row items-center justify-between gap-4 text-xs">
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-lg bg-[#FF5A5F] flex items-center justify-center border-2 border-black text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
               <UtensilsCrossed className="w-4 h-4" />

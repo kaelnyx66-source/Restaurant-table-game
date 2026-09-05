@@ -198,8 +198,8 @@ export const TableQRModal: React.FC<TableQRModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 flex items-center justify-center p-4 overflow-y-auto">
-      <div className="bg-white border-4 border-black rounded-3xl p-6 sm:p-8 max-w-2xl w-full space-y-6 shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] relative animate-in zoom-in-95 my-8 max-h-[90vh] overflow-y-auto">
+    <div className="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 flex items-center justify-center p-3 sm:p-4 overflow-y-auto overscroll-contain">
+      <div className="bg-white border-4 border-black rounded-3xl p-5 sm:p-8 max-w-2xl w-full space-y-6 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] sm:shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] relative animate-in zoom-in-95 my-4 sm:my-8 max-h-[90vh] overflow-y-auto">
         {/* Close Button */}
         <button
           onClick={onClose}

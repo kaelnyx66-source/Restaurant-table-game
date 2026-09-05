@@ -161,73 +161,32 @@ export const Header: React.FC<HeaderProps> = ({
   };
 
   return (
-    <header className="bg-[#FFF9F2] text-[#1A1A1A] border-b-4 border-[#1A1A1A] sticky top-0 z-40 shadow-[0_4px_0_0_rgba(26,26,26,1)]">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-4">
+    <header className="bg-[#FFF9F2] text-[#1A1A1A] border-b-4 border-[#1A1A1A] sticky top-0 z-40 shadow-[0_4px_0_0_rgba(26,26,26,1)] w-full max-w-full overflow-hidden safe-pt">
+      <div className="max-w-6xl mx-auto px-3.5 sm:px-6 py-3 sm:py-4">
         {/* Top Header Row */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-          {/* Logo & Table Badge */}
-          <div className="flex items-center justify-between w-full md:w-auto gap-4">
-            <div className="flex items-center gap-3">
-              <div className="w-12 h-12 bg-[#FF5A5F] rounded-2xl flex items-center justify-center border-3 border-[#1A1A1A] shadow-[3px_3px_0px_0px_rgba(26,26,26,1)] text-white">
-                <UtensilsCrossed className="w-6 h-6 stroke-[2.5]" />
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
+          {/* Row 1 on mobile: Logo, Title, and Sound toggle */}
+          <div className="flex items-center justify-between w-full md:w-auto gap-2">
+            <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
+              <div className="w-10 h-10 sm:w-12 sm:h-12 bg-[#FF5A5F] rounded-2xl flex items-center justify-center border-3 border-[#1A1A1A] shadow-[2px_2px_0px_0px_rgba(26,26,26,1)] sm:shadow-[3px_3px_0px_0px_rgba(26,26,26,1)] text-white shrink-0">
+                <UtensilsCrossed className="w-5 h-5 sm:w-6 sm:h-6 stroke-[2.5]" />
               </div>
-              <div>
-                <div className="flex items-center gap-2">
-                  <h1 className="text-2xl sm:text-3xl font-black italic tracking-tight text-[#1A1A1A]">
-                    BITES & GAMES
-                  </h1>
-                </div>
-                <p className="text-[#FF5A5F] font-bold text-xs uppercase tracking-wider">
-                  The ultimate table entertainment system
+              <div className="min-w-0">
+                <h1 className="text-xl sm:text-2xl md:text-3xl font-black italic tracking-tight text-[#1A1A1A] leading-tight truncate">
+                  BITES & GAMES
+                </h1>
+                <p className="text-[#FF5A5F] font-bold text-[10px] sm:text-xs uppercase tracking-wider truncate">
+                  Table Entertainment Lounge
                 </p>
               </div>
             </div>
 
-            {/* Controls for mobile */}
-            <div className="flex items-center gap-2 md:hidden">
-              {/* QR Modal Trigger */}
-              {onOpenQRModal && (
-                <button
-                  onClick={onOpenQRModal}
-                  className="p-2 rounded-xl bg-white text-[#1A1A1A] border-2 border-black font-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] cursor-pointer"
-                  title="Print Table QR"
-                >
-                  <QrCode className="w-4 h-4" />
-                </button>
-              )}
-
-              {/* Install PWA Button */}
-              <PWAInstallButton />
-
-              {/* Mobile Table Selector */}
-              <div className="bg-white px-2 py-1 rounded-xl border-2 border-[#1A1A1A] font-black text-xs shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] flex items-center">
-                <select
-                  value={tables.includes(tableNumber) ? tableNumber : ''}
-                  onChange={(e) => {
-                    if (e.target.value === '__manage__') {
-                      onOpenQRModal?.();
-                    } else if (e.target.value) {
-                      setTableNumber(e.target.value);
-                    }
-                  }}
-                  className="bg-transparent text-[#1A1A1A] font-black text-xs outline-none cursor-pointer max-w-[90px]"
-                >
-                  {!tables.includes(tableNumber) && (
-                    <option value="">{tableNumber}</option>
-                  )}
-                  {tables.map((t) => (
-                    <option key={t} value={t}>
-                      {t}
-                    </option>
-                  ))}
-                  <option value="__manage__">+ Manage...</option>
-                </select>
-              </div>
-
+            {/* Sound toggle for mobile */}
+            <div className="flex items-center gap-2 md:hidden shrink-0">
               <button
                 id="mobile-sound-toggle"
                 onClick={toggleSound}
-                className="p-2 rounded-xl bg-[#FFD166] text-[#1A1A1A] border-2 border-black font-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] cursor-pointer"
+                className="p-2 rounded-xl bg-[#FFD166] text-[#1A1A1A] border-2 border-black font-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] cursor-pointer active:translate-y-0.5"
                 aria-label="Toggle Sound"
               >
                 {soundEnabled ? (
@@ -237,6 +196,50 @@ export const Header: React.FC<HeaderProps> = ({
                 )}
               </button>
             </div>
+          </div>
+
+          {/* Row 2 on mobile: Table Selector, QR Button, and PWA Install (never exceeds screen width) */}
+          <div className="flex items-center gap-2 md:hidden w-full pt-1 border-t border-black/10">
+            {/* Mobile Table Selector */}
+            <div className="flex-1 bg-white px-2.5 py-1.5 rounded-xl border-2 border-[#1A1A1A] font-black text-xs shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] flex items-center justify-between min-w-0">
+              <span className="text-[10px] uppercase text-[#FF5A5F] font-black mr-1 shrink-0">TABLE:</span>
+              <select
+                value={tables.includes(tableNumber) ? tableNumber : ''}
+                onChange={(e) => {
+                  if (e.target.value === '__manage__') {
+                    onOpenQRModal?.();
+                  } else if (e.target.value) {
+                    setTableNumber(e.target.value);
+                  }
+                }}
+                className="bg-transparent text-[#1A1A1A] font-black text-xs outline-none cursor-pointer w-full text-right"
+              >
+                {!tables.includes(tableNumber) && (
+                  <option value="">{tableNumber}</option>
+                )}
+                {tables.map((t) => (
+                  <option key={t} value={t}>
+                    {t}
+                  </option>
+                ))}
+                <option value="__manage__">+ Manage...</option>
+              </select>
+            </div>
+
+            {/* QR Modal Trigger */}
+            {onOpenQRModal && (
+              <button
+                onClick={onOpenQRModal}
+                className="px-2.5 py-1.5 rounded-xl bg-white text-[#1A1A1A] border-2 border-black font-black text-xs shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] cursor-pointer shrink-0 flex items-center gap-1 active:translate-y-0.5"
+                title="Print Table QR"
+              >
+                <QrCode className="w-3.5 h-3.5 text-[#FF5A5F]" />
+                <span className="text-[11px] font-black">QR</span>
+              </button>
+            )}
+
+            {/* Install PWA Button */}
+            <PWAInstallButton className="shrink-0" />
           </div>
 
           {/* Table ID, QR Maker, Install PWA, and Sound on Desktop */}
@@ -304,14 +307,14 @@ export const Header: React.FC<HeaderProps> = ({
         </div>
 
         {/* Category Pills Bar */}
-        <div className="flex items-center gap-2 mt-4 overflow-x-auto pb-1 scrollbar-none border-t-2 border-black/10 pt-3">
+        <div className="flex items-center gap-2 mt-3 sm:mt-4 overflow-x-auto pb-1 scrollbar-none border-t-2 border-black/10 pt-2.5 overscroll-x-contain touch-pan-x">
           {categories.map((cat) => {
             const isCatActive = selectedCategory === cat.id;
             return (
               <button
                 key={cat.id}
                 onClick={() => handleCategorySelect(cat.id)}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-black transition cursor-pointer border-2 border-black ${
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-black transition cursor-pointer border-2 border-black shrink-0 ${
                   isCatActive
                     ? 'bg-[#1A1A1A] text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] -translate-y-0.5'
                     : 'bg-white text-[#1A1A1A] hover:bg-neutral-100 shadow-[1px_1px_0px_0px_rgba(0,0,0,1)]'
@@ -331,7 +334,7 @@ export const Header: React.FC<HeaderProps> = ({
         </div>
 
         {/* Game Navigation Tabs */}
-        <nav className="flex items-center gap-2 sm:gap-3 mt-3 overflow-x-auto pb-1 scrollbar-none">
+        <nav className="flex items-center gap-2 sm:gap-3 mt-2.5 sm:mt-3 overflow-x-auto pb-1 scrollbar-none overscroll-x-contain touch-pan-x">
           {displayedNavItems.map((item) => {
             const Icon = item.icon;
             const isActive = activeTab === item.id;
