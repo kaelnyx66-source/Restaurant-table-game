@@ -23,6 +23,7 @@ interface TableQRModalProps {
   onSelectTable: (table: string) => void;
   tables: string[];
   setTables: (tables: string[]) => void;
+  restaurantId?: string;
 }
 
 export const TableQRModal: React.FC<TableQRModalProps> = ({
@@ -32,6 +33,7 @@ export const TableQRModal: React.FC<TableQRModalProps> = ({
   onSelectTable,
   tables,
   setTables,
+  restaurantId = 'main-lounge',
 }) => {
   const [modalTab, setModalTab] = useState<'single' | 'manage' | 'batch'>('single');
   const [selectedTable, setSelectedTable] = useState<string>(currentTable || 'Table 4');
@@ -42,7 +44,9 @@ export const TableQRModal: React.FC<TableQRModalProps> = ({
   const [feedback, setFeedback] = useState<string | null>(null);
 
   const baseUrl = typeof window !== 'undefined' ? window.location.origin : 'https://bites-and-games.app';
-  const targetUrl = `${baseUrl}/?table=${encodeURIComponent(selectedTable.replace(/^Table\s*#?/i, ''))}`;
+  const cleanSelected = selectedTable.replace(/^Table\s*#?/i, '');
+  const targetUrl = `${baseUrl}/?restaurant=${encodeURIComponent(restaurantId)}&table=${encodeURIComponent(cleanSelected)}`;
+
 
   // Keep selectedTable in sync when currentTable changes
   useEffect(() => {
@@ -82,7 +86,7 @@ export const TableQRModal: React.FC<TableQRModalProps> = ({
 
     tables.forEach((t) => {
       const cleanParam = t.replace(/^Table\s*#?/i, '');
-      const tUrl = `${baseUrl}/?table=${encodeURIComponent(cleanParam)}`;
+      const tUrl = `${baseUrl}/?restaurant=${encodeURIComponent(restaurantId)}&table=${encodeURIComponent(cleanParam)}`;
       QRCode.toDataURL(
         tUrl,
         {

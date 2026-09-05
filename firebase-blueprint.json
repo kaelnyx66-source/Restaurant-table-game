@@ -1,0 +1,50 @@
+{
+  "entities": {
+    "Restaurant": {
+      "title": "Restaurant",
+      "description": "Represents a restaurant profile with custom settings, tables, game content, and Google Review URL.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Restaurant unique ID" },
+        "name": { "type": "string", "description": "Restaurant public business name" },
+        "googleReviewUrl": { "type": "string", "description": "Direct URL to Google Review dialog for this restaurant" },
+        "adminPin": { "type": "string", "description": "Passcode or PIN for manager admin login" },
+        "adminEmail": { "type": "string", "description": "Contact email for notifications" },
+        "tables": { "type": "array", "description": "List of active restaurant table identifiers" },
+        "customGameQuestions": { "type": "object", "description": "Custom trivia and party game questions for this restaurant" },
+        "createdAt": { "type": "string", "description": "Creation timestamp ISO string" },
+        "updatedAt": { "type": "string", "description": "Last modified timestamp ISO string" }
+      },
+      "required": ["name", "googleReviewUrl", "createdAt"]
+    },
+    "Feedback": {
+      "title": "Feedback",
+      "description": "Represents a customer review, complaint, or suggestion submitted from a table.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Feedback unique ID" },
+        "restaurantId": { "type": "string", "description": "ID of the target restaurant" },
+        "table": { "type": "string", "description": "Table identifier where customer was seated" },
+        "customerName": { "type": "string", "description": "Optional name of customer" },
+        "type": { "type": "string", "enum": ["review", "complaint", "suggestion"], "description": "Feedback category" },
+        "rating": { "type": "number", "description": "Star rating 1 to 5" },
+        "comment": { "type": "string", "description": "Customer message body" },
+        "status": { "type": "string", "enum": ["new", "investigating", "resolved"], "description": "Resolution status by staff" },
+        "resolutionNotes": { "type": "string", "description": "Internal notes from manager" },
+        "googleReviewRedirected": { "type": "boolean", "description": "Whether customer opened Google Reviews" },
+        "createdAt": { "type": "string", "description": "Timestamp ISO string" }
+      },
+      "required": ["restaurantId", "table", "type", "comment", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/restaurants/{restaurantId}": {
+      "schema": "Restaurant",
+      "description": "Collection storing restaurant profile, branding, tables, and Google Review settings."
+    },
+    "/restaurants/{restaurantId}/feedbacks/{feedbackId}": {
+      "schema": "Feedback",
+      "description": "Subcollection of customer reviews and staff complaints for this restaurant."
+    }
+  }
+}

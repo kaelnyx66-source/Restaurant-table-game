@@ -1,6 +1,6 @@
 {
   "name": "TablePlay - Restaurant Games Lounge",
-  "description": "Fun tabletop, family board, and solo arcade games for dining guests: Heads Up, The Imposter, Spin Wheel, Snakes & Ladders, Chess, Ludo, Fruit Snake, and Flapping Bird.",
+  "description": "Restaurant tabletop games lounge with smart table QR auto-login, guest reviews & complaints hub with Google Reviews integration, and manager admin portal.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

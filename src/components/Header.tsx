@@ -13,7 +13,9 @@ import {
   Crown,
   Wind,
   CircleDot,
-  QrCode
+  QrCode,
+  Star,
+  ShieldCheck
 } from 'lucide-react';
 import { sounds } from '../utils/sound';
 import { PWAInstallButton } from './PWAInstallButton';
@@ -27,6 +29,10 @@ interface HeaderProps {
   setSoundEnabled: (enabled: boolean) => void;
   onOpenQRModal?: () => void;
   tables?: string[];
+  restaurantName?: string;
+  onOpenFeedbackModal?: () => void;
+  onOpenAdminPortal?: () => void;
+  isAdminMode?: boolean;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -38,8 +44,13 @@ export const Header: React.FC<HeaderProps> = ({
   setSoundEnabled,
   onOpenQRModal,
   tables = [],
+  restaurantName = 'BITES & GAMES',
+  onOpenFeedbackModal,
+  onOpenAdminPortal,
+  isAdminMode = false,
 }) => {
   const [selectedCategory, setSelectedCategory] = useState<GameCategory>('all');
+
 
   const toggleSound = () => {
     const next = !soundEnabled;
@@ -172,8 +183,8 @@ export const Header: React.FC<HeaderProps> = ({
                 <UtensilsCrossed className="w-5 h-5 sm:w-6 sm:h-6 stroke-[2.5]" />
               </div>
               <div className="min-w-0">
-                <h1 className="text-xl sm:text-2xl md:text-3xl font-black italic tracking-tight text-[#1A1A1A] leading-tight truncate">
-                  BITES & GAMES
+                <h1 className="text-lg sm:text-xl md:text-2xl font-black italic tracking-tight text-[#1A1A1A] leading-tight truncate">
+                  {restaurantName}
                 </h1>
                 <p className="text-[#FF5A5F] font-bold text-[10px] sm:text-xs uppercase tracking-wider truncate">
                   Table Entertainment Lounge
@@ -181,8 +192,20 @@ export const Header: React.FC<HeaderProps> = ({
               </div>
             </div>
 
-            {/* Sound toggle for mobile */}
-            <div className="flex items-center gap-2 md:hidden shrink-0">
+            {/* Mobile Controls: Sound & Admin quick trigger */}
+            <div className="flex items-center gap-1.5 md:hidden shrink-0">
+              {onOpenAdminPortal && (
+                <button
+                  onClick={onOpenAdminPortal}
+                  className={`p-2 rounded-xl border-2 border-black font-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] cursor-pointer active:translate-y-0.5 ${
+                    isAdminMode ? 'bg-[#06D6A0] text-[#1A1A1A]' : 'bg-white text-neutral-700'
+                  }`}
+                  title="Restaurant Admin Portal"
+                >
+                  <ShieldCheck className="w-4 h-4" />
+                </button>
+              )}
+
               <button
                 id="mobile-sound-toggle"
                 onClick={toggleSound}
@@ -198,10 +221,10 @@ export const Header: React.FC<HeaderProps> = ({
             </div>
           </div>
 
-          {/* Row 2 on mobile: Table Selector, QR Button, and PWA Install (never exceeds screen width) */}
-          <div className="flex items-center gap-2 md:hidden w-full pt-1 border-t border-black/10">
+          {/* Row 2 on mobile: Table Selector, Review button, QR Button, and PWA Install */}
+          <div className="flex items-center gap-1.5 sm:gap-2 md:hidden w-full pt-1 border-t border-black/10">
             {/* Mobile Table Selector */}
-            <div className="flex-1 bg-white px-2.5 py-1.5 rounded-xl border-2 border-[#1A1A1A] font-black text-xs shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] flex items-center justify-between min-w-0">
+            <div className="flex-1 bg-white px-2 py-1.5 rounded-xl border-2 border-[#1A1A1A] font-black text-xs shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] flex items-center justify-between min-w-0">
               <span className="text-[10px] uppercase text-[#FF5A5F] font-black mr-1 shrink-0">TABLE:</span>
               <select
                 value={tables.includes(tableNumber) ? tableNumber : ''}
@@ -226,6 +249,18 @@ export const Header: React.FC<HeaderProps> = ({
               </select>
             </div>
 
+            {/* Customer Review Button on Mobile */}
+            {onOpenFeedbackModal && (
+              <button
+                onClick={onOpenFeedbackModal}
+                className="px-2.5 py-1.5 rounded-xl bg-[#FFD166] text-[#1A1A1A] border-2 border-black font-black text-xs shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] cursor-pointer shrink-0 flex items-center gap-1 active:translate-y-0.5"
+                title="Leave Review or Alert Manager"
+              >
+                <Star className="w-3.5 h-3.5 fill-[#1A1A1A] text-[#1A1A1A]" />
+                <span className="text-[11px] font-black">Review</span>
+              </button>
+            )}
+
             {/* QR Modal Trigger */}
             {onOpenQRModal && (
               <button
@@ -242,8 +277,36 @@ export const Header: React.FC<HeaderProps> = ({
             <PWAInstallButton className="shrink-0" />
           </div>
 
-          {/* Table ID, QR Maker, Install PWA, and Sound on Desktop */}
-          <div className="hidden md:flex items-center gap-3">
+          {/* Table ID, Review Button, Admin Portal, QR Maker, Install PWA, and Sound on Desktop */}
+          <div className="hidden md:flex items-center gap-2.5">
+            {/* Customer Review Button */}
+            {onOpenFeedbackModal && (
+              <button
+                onClick={onOpenFeedbackModal}
+                className="flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl bg-[#FFD166] hover:bg-[#ffc847] border-3 border-black text-xs font-black text-[#1A1A1A] shadow-[3px_3px_0px_0px_rgba(26,26,26,1)] hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[1px_1px_0px_0px_rgba(26,26,26,1)] transition cursor-pointer"
+                title="Leave feedback or complaint"
+              >
+                <Star className="w-4 h-4 fill-[#1A1A1A] text-[#1A1A1A]" />
+                <span>FEEDBACK & REVIEWS</span>
+              </button>
+            )}
+
+            {/* Admin Portal Toggle */}
+            {onOpenAdminPortal && (
+              <button
+                onClick={onOpenAdminPortal}
+                className={`flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl border-3 border-black text-xs font-black transition cursor-pointer ${
+                  isAdminMode
+                    ? 'bg-[#06D6A0] text-[#1A1A1A] shadow-[3px_3px_0px_0px_rgba(26,26,26,1)]'
+                    : 'bg-white hover:bg-neutral-50 text-[#1A1A1A] shadow-[3px_3px_0px_0px_rgba(26,26,26,1)]'
+                }`}
+                title="Restaurant Admin Portal"
+              >
+                <ShieldCheck className="w-4 h-4 text-[#1A1A1A]" />
+                <span>{isAdminMode ? 'ADMIN ACTIVE' : 'RESTAURANT ADMIN'}</span>
+              </button>
+            )}
+
             {/* Table QR Maker Button */}
             {onOpenQRModal && (
               <button
@@ -260,7 +323,7 @@ export const Header: React.FC<HeaderProps> = ({
             <PWAInstallButton />
 
             {/* Desktop Table Selector Dropdown */}
-            <div className="bg-white px-3.5 py-2 rounded-xl border-3 border-[#1A1A1A] font-black text-sm shadow-[3px_3px_0px_0px_rgba(26,26,26,1)] flex items-center gap-2">
+            <div className="bg-white px-3 py-2 rounded-xl border-3 border-[#1A1A1A] font-black text-sm shadow-[3px_3px_0px_0px_rgba(26,26,26,1)] flex items-center gap-2">
               <span className="text-xs uppercase text-[#FF5A5F] tracking-wider">Table:</span>
               <select
                 id="desktop-table-select"
@@ -289,12 +352,12 @@ export const Header: React.FC<HeaderProps> = ({
             <button
               id="desktop-sound-toggle"
               onClick={toggleSound}
-              className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#FFD166] border-3 border-black text-xs font-black text-[#1A1A1A] shadow-[3px_3px_0px_0px_rgba(26,26,26,1)] hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[1px_1px_0px_0px_rgba(26,26,26,1)] transition cursor-pointer"
+              className="flex items-center gap-2 px-3.5 py-2.5 rounded-xl bg-white border-3 border-black text-xs font-black text-[#1A1A1A] shadow-[3px_3px_0px_0px_rgba(26,26,26,1)] hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[1px_1px_0px_0px_rgba(26,26,26,1)] transition cursor-pointer"
             >
               {soundEnabled ? (
                 <>
                   <Volume2 className="w-4 h-4 stroke-[2.5]" />
-                  <span>AUDIO ON</span>
+                  <span>AUDIO</span>
                 </>
               ) : (
                 <>

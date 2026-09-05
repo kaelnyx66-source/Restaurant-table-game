@@ -7,7 +7,8 @@ export type ActiveTab =
   | 'ludo'
   | 'fruit-snake'
   | 'flapping-bird'
-  | 'manage';
+  | 'manage'
+  | 'admin';
 
 export type GameCategory = 'all' | 'party' | 'family' | 'solo' | 'manage';
 
@@ -47,3 +48,33 @@ export interface GameDatabase {
   wheelCategories: WheelCategory[];
   tables?: string[];
 }
+
+export type FeedbackType = 'review' | 'complaint' | 'suggestion';
+export type FeedbackStatus = 'new' | 'investigating' | 'resolved';
+
+export interface CustomerFeedback {
+  id: string;
+  restaurantId: string;
+  table: string;
+  customerName?: string;
+  type: FeedbackType;
+  rating?: number;
+  comment: string;
+  status: FeedbackStatus;
+  resolutionNotes?: string;
+  googleReviewRedirected?: boolean;
+  createdAt: string;
+}
+
+export interface RestaurantProfile {
+  id: string;
+  name: string;
+  googleReviewUrl: string;
+  adminPin?: string;
+  adminEmail?: string;
+  tables?: string[];
+  customGameQuestions?: Partial<GameDatabase>;
+  createdAt: string;
+  updatedAt?: string;
+}
+
